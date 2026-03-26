@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cafe Lore — 代官山のスペシャルティコーヒーカフェ</title>
+
+  <!-- OGP meta tags -->
+  <meta property="og:title" content="Cafe Lore — 代官山のスペシャルティコーヒーカフェ">
+  <meta property="og:description" content="本棚に囲まれた落ち着いた空間で、自家焙煎のスペシャルティコーヒーと手作りスイーツを。代官山駅徒歩3分。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cafe-lore.com">
+  <meta property="og:image" content="https://cafe-lore.com/og-image.jpg">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cafe Lore — 代官山のスペシャルティコーヒーカフェ">
+  <meta name="twitter:description" content="本棚に囲まれた落ち着いた空間で、自家焙煎のスペシャルティコーヒーと手作りスイーツを。代官山駅徒歩3分。">
+  <meta name="description" content="代官山のスペシャルティコーヒーカフェ Cafe Lore。自家焙煎の豆と手作りスイーツ、本棚に囲まれた空間でゆったりとしたひとときを。">
+
+  <!-- Favicon (SVG coffee cup) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M12 20h32v4c0 12-6 20-16 22-10-2-16-10-16-22v-4z' fill='%231E3932'/%3E%3Cpath d='M44 24h6c4 0 6 3 6 7s-2 7-6 7h-6' fill='none' stroke='%231E3932' stroke-width='3'/%3E%3Cpath d='M20 14c0-4 4-4 4-8M28 14c0-4 4-4 4-8M36 14c0-4 4-4 4-8' fill='none' stroke='%2300704A' stroke-width='2' stroke-linecap='round'/%3E%3Cellipse cx='28' cy='52' rx='18' ry='3' fill='%23D6D0C4'/%3E%3C/svg%3E">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --main: #1E3932;
+      --accent: #00704A;
+      --bg: #F2F0EB;
+      --bg-white: #FFFFFF;
+      --text: #1E1E1E;
+      --text-sub: #555555;
+      --text-muted: #888888;
+      --divider: #D6D0C4;
+      --brown: #6B4226;
+      --warm: #C8956C;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans JP', 'Helvetica Neue', 'Hiragino Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.8;
+    }
+
+    /* ===== NAVIGATION ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(30, 57, 50, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 0 24px;
+      transition: box-shadow 0.3s;
+    }
+    .nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.15); }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: #fff;
+      font-size: 22px;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 8px 20px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: #005C3B; }
+
+    /* Mobile hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background: #fff;
+      transition: 0.3s;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, #1E3932 0%, #14292A 50%, #1E3932 100%);
+      color: #fff;
+      text-align: center;
+      padding: 160px 24px 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at 30% 50%, rgba(0,112,74,0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 50%, rgba(200,149,108,0.06) 0%, transparent 60%);
+      animation: heroShimmer 20s ease-in-out infinite alternate;
+    }
+    @keyframes heroShimmer {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-5%, 5%); }
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(200,149,108,0.2);
+      color: var(--warm);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      padding: 6px 20px;
+      border-radius: 20px;
+      border: 1px solid rgba(200,149,108,0.3);
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 64px;
+      letter-spacing: 3px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .hero .sub {
+      color: var(--warm);
+      font-size: 14px;
+      letter-spacing: 6px;
+      font-weight: 500;
+    }
+    .hero .tagline {
+      color: #A8C5B8;
+      font-size: 18px;
+      margin-top: 28px;
+      font-weight: 300;
+    }
+    .hero-buttons {
+      margin-top: 40px;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #06C755;
+      color: #fff;
+      text-decoration: none;
+      padding: 16px 36px;
+      border-radius: 40px;
+      font-size: 15px;
+      font-weight: 700;
+      transition: all 0.2s;
+      box-shadow: 0 4px 15px rgba(6,199,85,0.3);
+    }
+    .btn-primary:hover { background: #05B14C; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(6,199,85,0.4); }
+    .btn-primary svg { width: 20px; height: 20px; }
+    .btn-secondary-hero {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: #fff;
+      text-decoration: none;
+      padding: 16px 36px;
+      border-radius: 40px;
+      font-size: 15px;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.3);
+      transition: all 0.2s;
+    }
+    .btn-secondary-hero:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .section-narrow {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .section-heading {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .section-heading .label {
+      display: block;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      margin-bottom: 12px;
+    }
+    .section-heading h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 32px;
+      color: var(--main);
+      font-weight: 700;
+    }
+    .section-heading .underline {
+      display: block;
+      width: 40px;
+      height: 2px;
+      background: var(--accent);
+      margin: 16px auto 0;
+    }
+
+    /* ===== SEASONAL ===== */
+    .seasonal {
+      background: linear-gradient(180deg, #FFF5F5 0%, var(--bg) 100%);
+      padding: 80px 24px;
+    }
+    .seasonal-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .seasonal-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .seasonal-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+    .seasonal-img {
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      position: relative;
+    }
+    .seasonal-img.sakura { background: linear-gradient(135deg, #FFE4E8 0%, #FFDDE4 100%); }
+    .seasonal-img.ichigo { background: linear-gradient(135deg, #FFE0E5 0%, #FFC8D0 100%); }
+    .seasonal-img.parfait { background: linear-gradient(135deg, #FFF0F0 0%, #FFE8EC 100%); }
+    .seasonal-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #E53E6B;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 12px;
+    }
+    .seasonal-info {
+      padding: 20px;
+    }
+    .seasonal-info h3 {
+      font-size: 18px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .seasonal-info .desc {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+    }
+    .seasonal-info .price {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--brown);
+    }
+
+    /* ===== ABOUT ===== */
+    .about-content p {
+      color: var(--text-sub);
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 16px 24px;
+      margin-top: 28px;
+      background: #fff;
+      padding: 28px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+    .info-grid dt { color: var(--text-muted); font-size: 13px; font-weight: 500; }
+    .info-grid dd { color: var(--text); font-size: 14px; }
+
+    /* ===== KODAWARI (Commitment) ===== */
+    .kodawari {
+      background: var(--main);
+      padding: 80px 24px;
+    }
+    .kodawari .section-heading .label { color: var(--warm); }
+    .kodawari .section-heading h2 { color: #fff; }
+    .kodawari .section-heading .underline { background: var(--warm); }
+    .kodawari-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .kodawari-item {
+      text-align: center;
+      padding: 32px 20px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .kodawari-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+    .kodawari-item h3 {
+      color: #fff;
+      font-size: 17px;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+    .kodawari-item p {
+      color: rgba(255,255,255,0.65);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    /* ===== MENU ===== */
+    .menu-category { margin-bottom: 36px; }
+    .menu-category h3 {
+      font-size: 18px;
+      color: var(--accent);
+      margin-bottom: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #E8E0D8;
+    }
+    .menu-item .name { color: var(--text); font-size: 15px; }
+    .menu-item .price { color: var(--brown); font-weight: 700; font-size: 15px; }
+    .menu-note { font-size: 13px; color: var(--text-muted); margin-top: 10px; }
+
+    /* ===== EVENTS ===== */
+    .events { background: #fff; padding: 80px 24px; }
+    .events-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .event-card {
+      background: var(--bg);
+      border-radius: 16px;
+      padding: 32px;
+      transition: transform 0.3s;
+    }
+    .event-card:hover { transform: translateY(-4px); }
+    .event-date {
+      display: inline-block;
+      background: var(--main);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    .event-card h3 {
+      font-size: 18px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .event-card p {
+      font-size: 14px;
+      color: var(--text-sub);
+      margin-bottom: 12px;
+    }
+    .event-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    /* ===== GALLERY ===== */
+    .gallery { padding: 80px 24px; }
+    .gallery-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+    .gallery-item {
+      aspect-ratio: 1;
+      background: var(--divider);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+    .gallery-item:hover { opacity: 0.85; }
+    .gallery-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      background: linear-gradient(135deg, #E8E0D8 0%, #D6D0C4 100%);
+    }
+    .gallery-follow {
+      text-align: center;
+      margin-top: 32px;
+    }
+    .gallery-follow a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 12px 28px;
+      border: 1px solid var(--divider);
+      border-radius: 28px;
+      transition: all 0.2s;
+    }
+    .gallery-follow a:hover { border-color: var(--text); background: #fff; }
+
+    /* ===== MAP ===== */
+    .map-section {
+      background: #fff;
+      padding: 80px 24px;
+    }
+    .map-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .map-embed {
+      width: 100%;
+      height: 400px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--divider);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .map-embed iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .map-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .map-info-item h4 {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .map-info-item p {
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    /* ===== CTA ===== */
+    .cta {
+      background: linear-gradient(135deg, #1E3932 0%, #14292A 100%);
+      text-align: center;
+      padding: 80px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(0,112,74,0.1) 0%, transparent 70%);
+    }
+    .cta-content { position: relative; z-index: 1; }
+    .cta h2 { color: #fff; font-size: 28px; font-family: 'Playfair Display', Georgia, serif; margin-bottom: 12px; }
+    .cta p { color: #A8C5B8; margin-bottom: 36px; font-size: 15px; }
+    .cta .btn-primary { font-size: 16px; padding: 18px 48px; }
+    .cta-note {
+      color: rgba(255,255,255,0.4);
+      font-size: 12px;
+      margin-top: 16px;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--main);
+      color: rgba(255,255,255,0.5);
+      padding: 48px 24px 32px;
+    }
+    .footer-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+    }
+    .footer-brand h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: #fff;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+    .footer-brand p { font-size: 13px; line-height: 1.8; }
+    .footer-col h4 {
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    .footer-col a {
+      display: block;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 13px;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom {
+      max-width: 900px;
+      margin: 32px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      /* Mobile menu */
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: rgba(30,57,50,0.98);
+        padding: 24px;
+        gap: 20px;
+      }
+
+      .hero { padding: 140px 20px 80px; }
+      .hero h1 { font-size: 40px; }
+      .hero .tagline { font-size: 16px; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+
+      .section, .section-narrow { padding: 60px 20px; }
+      .seasonal { padding: 60px 20px; }
+
+      .kodawari-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .map-embed { height: 280px; }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .info-grid {
+        grid-template-columns: 90px 1fr;
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 32px; }
+      .section-heading h2 { font-size: 26px; }
+      .seasonal-grid { grid-template-columns: 1fr; }
+      .events-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Cafe Lore</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#seasonal">SEASONAL</a></li>
+      <li><a href="#about">ABOUT</a></li>
+      <li><a href="#menu">MENU</a></li>
+      <li><a href="#events">EVENTS</a></li>
+      <li><a href="#gallery">GALLERY</a></li>
+      <li><a href="#access">ACCESS</a></li>
+      <li><a href="https://lin.ee/placeholder" class="nav-cta">LINE友だち追加</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="メニュー">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">SPECIALTY COFFEE SINCE 2020</div>
+    <h1>Cafe Lore</h1>
+    <div class="sub">SPECIALTY COFFEE &amp; HANDMADE SWEETS</div>
+    <div class="tagline">物語が生まれる場所 &#8212; 代官山</div>
+    <div class="hero-buttons">
+      <a href="https://lin.ee/placeholder" class="btn-primary">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+        LINE友だち追加
+      </a>
+      <a href="#menu" class="btn-secondary-hero">メニューを見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- Seasonal Specials -->
+<section class="seasonal" id="seasonal">
+  <div class="section-heading">
+    <span class="label">SEASONAL MENU</span>
+    <h2>季節のおすすめ</h2>
+    <span class="underline"></span>
+  </div>
+  <div class="seasonal-grid">
+    <div class="seasonal-card">
+      <div class="seasonal-img sakura">
+        <span>&#127800;</span>
+        <span class="seasonal-badge">期間限定</span>
+      </div>
+      <div class="seasonal-info">
+        <h3>桜ラテ</h3>
+        <p class="desc">国産桜葉を使用した、春の香り広がるラテ。ほんのりピンクの見た目も華やか。</p>
+        <span class="price">&yen;650</span>
+      </div>
+    </div>
+    <div class="seasonal-card">
+      <div class="seasonal-img ichigo">
+        <span>&#127827;</span>
+        <span class="seasonal-badge">人気No.1</span>
+      </div>
+      <div class="seasonal-info">
+        <h3>いちごパフェ</h3>
+        <p class="desc">栃木県産とちおとめをたっぷり使用。自家製カスタードと濃厚バニラアイスの贅沢な一杯。</p>
+        <span class="price">&yen;1,200</span>
+      </div>
+    </div>
+    <div class="seasonal-card">
+      <div class="seasonal-img parfait">
+        <span>&#127825;</span>
+        <span class="seasonal-badge">NEW</span>
+      </div>
+      <div class="seasonal-info">
+        <h3>いちごスムージー</h3>
+        <p class="desc">朝摘みいちごをまるごと使用。甘さ控えめで後味すっきり。</p>
+        <span class="price">&yen;700</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section class="section-narrow" id="about">
+  <div class="section-heading">
+    <span class="label">ABOUT US</span>
+    <h2>Cafe Loreについて</h2>
+    <span class="underline"></span>
+  </div>
+  <div class="about-content">
+    <p>本棚に囲まれた落ち着いた空間で、厳選したスペシャルティコーヒーと手作りスイーツをお楽しみいただけます。</p>
+    <p>オーナーバリスタが年2回コロンビアとエチオピアへ豆の買い付けに訪れ、併設の焙煎工房で毎週月曜日に焙煎。パティシエが毎朝焼き上げるバスクチーズケーキは当店の一番人気です。</p>
+
+    <dl class="info-grid">
+      <dt>住所</dt><dd>東京都渋谷区代官山町15-8 ロアビル1F</dd>
+      <dt>最寄駅</dt><dd>代官山駅 徒歩3分 / 恵比寿駅 徒歩8分</dd>
+      <dt>営業時間</dt><dd>平日 8:00〜21:00 / 土日祝 9:00〜20:00</dd>
+      <dt>定休日</dt><dd>毎週水曜日</dd>
+      <dt>席数</dt><dd>店内22席 + テラス8席（ペット同伴可）</dd>
+      <dt>設備</dt><dd>Wi-Fi完備 / 電源あり（カウンター・窓際）</dd>
+      <dt>電話</dt><dd>03-6455-XXXX</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- Kodawari (Commitment) -->
+<section class="kodawari">
+  <div class="section-heading">
+    <span class="label">OUR COMMITMENT</span>
+    <h2>Cafe Loreのこだわり</h2>
+    <span class="underline"></span>
+  </div>
+  <div class="kodawari-grid">
+    <div class="kodawari-item">
+      <div class="kodawari-icon">&#9749;</div>
+      <h3>自家焙煎</h3>
+      <p>併設の焙煎工房で毎週月曜に焙煎。鮮度にこだわり、焙煎後1週間以内の豆のみを使用しています。</p>
+    </div>
+    <div class="kodawari-item">
+      <div class="kodawari-icon">&#127793;</div>
+      <h3>スペシャルティグレード</h3>
+      <p>SCAスコア85点以上の豆のみを厳選。コロンビア・エチオピアの農園から直接買い付け、トレーサビリティを大切にしています。</p>
+    </div>
+    <div class="kodawari-item">
+      <div class="kodawari-icon">&#127856;</div>
+      <h3>パティシエ手作り</h3>
+      <p>専属パティシエが毎朝焼き上げるスイーツ。素材にこだわり、保存料や人工甘味料は一切使用していません。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Menu -->
+<section class="section-narrow" id="menu">
+  <div class="section-heading">
+    <span class="label">MENU</span>
+    <h2>メニュー</h2>
+    <span class="underline"></span>
+  </div>
+
+  <div class="menu-category">
+    <h3>&#9749; Coffee</h3>
+    <div class="menu-item"><span class="name">ドリップコーヒー</span><span class="price">&yen;480</span></div>
+    <div class="menu-item"><span class="name">カフェラテ</span><span class="price">&yen;550</span></div>
+    <div class="menu-item"><span class="name">カプチーノ</span><span class="price">&yen;550</span></div>
+    <div class="menu-item"><span class="name">エスプレッソ</span><span class="price">&yen;400</span></div>
+    <div class="menu-item"><span class="name">抹茶ラテ</span><span class="price">&yen;600</span></div>
+    <div class="menu-item"><span class="name">チャイラテ</span><span class="price">&yen;580</span></div>
+    <p class="menu-note">Ice +&yen;50 / ミルク変更(オーツ・アーモンド・ソイ) +&yen;80 / デカフェ +&yen;50</p>
+  </div>
+
+  <div class="menu-category">
+    <h3>&#127800; Seasonal（3〜4月）</h3>
+    <div class="menu-item"><span class="name">桜ラテ</span><span class="price">&yen;650</span></div>
+    <div class="menu-item"><span class="name">いちごスムージー</span><span class="price">&yen;700</span></div>
+    <div class="menu-item"><span class="name">いちごパフェ</span><span class="price">&yen;1,200</span></div>
+  </div>
+
+  <div class="menu-category">
+    <h3>&#127860; Food</h3>
+    <div class="menu-item"><span class="name">BLTサンドイッチ</span><span class="price">&yen;780</span></div>
+    <div class="menu-item"><span class="name">アボカドトースト</span><span class="price">&yen;850</span></div>
+    <div class="menu-item"><span class="name">キッシュプレート</span><span class="price">&yen;900</span></div>
+    <div class="menu-item"><span class="name">シーザーサラダ</span><span class="price">&yen;750</span></div>
+    <div class="menu-item"><span class="name">クロックムッシュ</span><span class="price">&yen;680</span></div>
+    <p class="menu-note">ランチセット(ドリンク付) +&yen;300</p>
+  </div>
+
+  <div class="menu-category">
+    <h3>&#127856; Dessert</h3>
+    <div class="menu-item"><span class="name">バスクチーズケーキ</span><span class="price">&yen;600</span></div>
+    <div class="menu-item"><span class="name">ティラミス</span><span class="price">&yen;650</span></div>
+    <div class="menu-item"><span class="name">本日のマフィン</span><span class="price">&yen;400</span></div>
+    <div class="menu-item"><span class="name">アフォガート</span><span class="price">&yen;550</span></div>
+    <div class="menu-item"><span class="name">季節のパフェ</span><span class="price">&yen;800</span></div>
+  </div>
+</section>
+
+<!-- Events -->
+<section class="events" id="events">
+  <div class="section-heading">
+    <span class="label">EVENTS</span>
+    <h2>イベント</h2>
+    <span class="underline"></span>
+  </div>
+  <div class="events-grid">
+    <div class="event-card">
+      <span class="event-date">4/6 (日) 14:00〜</span>
+      <h3>ラテアート教室</h3>
+      <p>プロのバリスタが基本のハートからリーフアートまで丁寧にレクチャー。初心者大歓迎です。</p>
+      <div class="event-meta">
+        <span>&#128205; Cafe Lore 店内カウンター</span>
+        <span>&#128176; 参加費 &yen;2,500（ドリンク付）</span>
+        <span>&#128101; 定員 8名（要予約）</span>
+      </div>
+    </div>
+    <div class="event-card">
+      <span class="event-date">4/20 (日) 15:00〜</span>
+      <h3>日曜読書会</h3>
+      <p>毎月テーマを決めて集まる読書会。今月のテーマは「旅と珈琲」。お気に入りの一冊をお持ちください。</p>
+      <div class="event-meta">
+        <span>&#128205; Cafe Lore テラス席エリア</span>
+        <span>&#128176; 参加費 &yen;500（ワンドリンクオーダー制）</span>
+        <span>&#128101; 定員 12名</span>
+      </div>
+    </div>
+    <div class="event-card">
+      <span class="event-date">毎週土曜 10:00〜</span>
+      <h3>コーヒーテイスティング</h3>
+      <p>今週のシングルオリジン3種を飲み比べ。豆の個性や抽出の違いを楽しむミニ体験会。</p>
+      <div class="event-meta">
+        <span>&#128205; Cafe Lore 焙煎工房前</span>
+        <span>&#128176; 参加費 &yen;800</span>
+        <span>&#128101; 定員 6名（予約優先）</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section class="gallery" id="gallery">
+  <div class="section-heading">
+    <span class="label">GALLERY</span>
+    <h2>ギャラリー</h2>
+    <span class="underline"></span>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item"><div class="gallery-placeholder">&#9749;</div></div>
+    <div class="gallery-item"><div class="gallery-placeholder">&#127856;</div></div>
+    <div class="gallery-item"><div class="gallery-placeholder">&#128218;</div></div>
+    <div class="gallery-item"><div class="gallery-placeholder">&#127800;</div></div>
+    <div class="gallery-item"><div class="gallery-placeholder">&#127860;</div></div>
+    <div class="gallery-item"><div class="gallery-placeholder">&#127793;</div></div>
+  </div>
+  <div class="gallery-follow">
+    <a href="https://instagram.com/" target="_blank" rel="noopener">@cafe_lore をフォロー</a>
+  </div>
+</section>
+
+<!-- Map -->
+<section class="map-section" id="access">
+  <div class="map-container">
+    <div class="section-heading">
+      <span class="label">ACCESS</span>
+      <h2>アクセス</h2>
+      <span class="underline"></span>
+    </div>
+    <div class="map-embed">
+      <!-- Google Maps embed placeholder: replace src with actual embed URL -->
+      <iframe src="about:blank" title="Cafe Lore 地図" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="background: #E8E0D8;"></iframe>
+    </div>
+    <div class="map-info">
+      <div class="map-info-item">
+        <h4>住所</h4>
+        <p>東京都渋谷区代官山町15-8 ロアビル1F</p>
+      </div>
+      <div class="map-info-item">
+        <h4>最寄駅</h4>
+        <p>代官山駅 徒歩3分 / 恵比寿駅 徒歩8分</p>
+      </div>
+      <div class="map-info-item">
+        <h4>営業時間</h4>
+        <p>平日 8:00〜21:00 / 土日祝 9:00〜20:00</p>
+      </div>
+      <div class="map-info-item">
+        <h4>定休日</h4>
+        <p>毎週水曜日</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-content">
+    <h2>LINEで簡単予約・ご相談</h2>
+    <p>メニューのご案内、アレルギー対応、おすすめ提案など<br>AIコンシェルジュがいつでも承ります。</p>
+    <a href="https://lin.ee/placeholder" class="btn-primary">
+      <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+      友だち追加する
+    </a>
+    <p class="cta-note">友だち追加で初回ドリンク10%OFFクーポンプレゼント</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>Cafe Lore</h3>
+      <p>代官山の路地裏に佇む、<br>本と珈琲の隠れ家カフェ。</p>
+    </div>
+    <div class="footer-col">
+      <h4>MENU</h4>
+      <a href="#seasonal">季節のおすすめ</a>
+      <a href="#menu">ドリンク</a>
+      <a href="#menu">フード</a>
+      <a href="#menu">デザート</a>
+    </div>
+    <div class="footer-col">
+      <h4>INFO</h4>
+      <a href="#about">店舗情報</a>
+      <a href="#events">イベント</a>
+      <a href="#access">アクセス</a>
+      <a href="https://lin.ee/placeholder">LINE</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Cafe Lore. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  // Navbar scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+  // Close mobile menu on link click
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+    });
+  });
+</script>
+
+</body>
+</html>
