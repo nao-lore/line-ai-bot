@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ご予約 — Cafe Lore | 代官山のスペシャルティコーヒーカフェ</title>
+
+  <meta property="og:title" content="ご予約 — Cafe Lore">
+  <meta property="og:description" content="Cafe Loreのオンライン予約ページ。日付・時間帯・人数をお選びいただき、簡単にご予約いただけます。">
+  <meta property="og:type" content="website">
+  <meta name="description" content="Cafe Loreのオンライン予約。代官山駅徒歩3分、本棚に囲まれた落ち着いた空間で自家焙煎コーヒーと手作りスイーツを。">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M12 20h32v4c0 12-6 20-16 22-10-2-16-10-16-22v-4z' fill='%231E3932'/%3E%3Cpath d='M44 24h6c4 0 6 3 6 7s-2 7-6 7h-6' fill='none' stroke='%231E3932' stroke-width='3'/%3E%3Cpath d='M20 14c0-4 4-4 4-8M28 14c0-4 4-4 4-8M36 14c0-4 4-4 4-8' fill='none' stroke='%2300704A' stroke-width='2' stroke-linecap='round'/%3E%3Cellipse cx='28' cy='52' rx='18' ry='3' fill='%23D6D0C4'/%3E%3C/svg%3E">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --main: #1E3932;
+      --accent: #00704A;
+      --bg: #F2F0EB;
+      --bg-white: #FFFFFF;
+      --text: #1E1E1E;
+      --text-sub: #555555;
+      --text-muted: #888888;
+      --divider: #D6D0C4;
+      --brown: #6B4226;
+      --warm: #C8956C;
+      --error: #D4380D;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans JP', 'Helvetica Neue', 'Hiragino Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.8;
+    }
+
+    /* ===== NAVIGATION ===== */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(30, 57, 50, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 0 24px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: #fff;
+      font-size: 22px;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 8px 20px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: #005C3B; }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background: #fff;
+      transition: 0.3s;
+    }
+
+    /* ===== HERO ===== */
+    .page-hero {
+      background: linear-gradient(135deg, #1E3932 0%, #14292A 50%, #1E3932 100%);
+      color: #fff;
+      text-align: center;
+      padding: 140px 24px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(ellipse at 30% 50%, rgba(0,112,74,0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 50%, rgba(200,149,108,0.06) 0%, transparent 60%);
+    }
+    .page-hero-content { position: relative; z-index: 1; }
+    .page-hero .label {
+      display: inline-block;
+      color: var(--warm);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      margin-bottom: 12px;
+    }
+    .page-hero h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+    .page-hero p {
+      color: #A8C5B8;
+      font-size: 15px;
+      font-weight: 300;
+    }
+
+    /* ===== FORM SECTION ===== */
+    .reserve-section {
+      max-width: 640px;
+      margin: -32px auto 0;
+      padding: 0 24px 80px;
+      position: relative;
+      z-index: 2;
+    }
+    .reserve-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+      padding: 40px 36px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--main);
+      margin-bottom: 8px;
+    }
+    .form-group label .required {
+      background: var(--error);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .form-group label .optional {
+      background: var(--divider);
+      color: var(--text-sub);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--divider);
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--text);
+      background: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,112,74,0.1);
+    }
+    .form-input.error,
+    .form-select.error,
+    .form-textarea.error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(212,56,13,0.1);
+    }
+    .error-message {
+      color: var(--error);
+      font-size: 12px;
+      margin-top: 4px;
+      display: none;
+    }
+    .error-message.visible {
+      display: block;
+    }
+
+    .form-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .checkbox-group input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .checkbox-group label {
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+      margin-bottom: 0;
+      font-weight: 500;
+    }
+
+    /* ===== NOTES ===== */
+    .reserve-notes {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+    }
+    .reserve-notes h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--main);
+      margin-bottom: 12px;
+    }
+    .reserve-notes ul {
+      list-style: none;
+      padding: 0;
+    }
+    .reserve-notes li {
+      font-size: 13px;
+      color: var(--text-sub);
+      padding: 4px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+    .reserve-notes li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 11px;
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    /* ===== SUBMIT BUTTON ===== */
+    .btn-submit {
+      width: 100%;
+      padding: 16px 32px;
+      background: var(--main);
+      color: #fff;
+      border: none;
+      border-radius: 40px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 15px rgba(30,57,50,0.3);
+    }
+    .btn-submit:hover {
+      background: #14292A;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(30,57,50,0.4);
+    }
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+    .btn-submit:disabled {
+      background: var(--divider);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ===== CONFIRMATION MODAL ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .modal-overlay.visible {
+      display: flex;
+    }
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      padding: 48px 36px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      animation: modalIn 0.3s ease;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .modal-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+    .modal-icon svg {
+      width: 32px;
+      height: 32px;
+      fill: #fff;
+    }
+    .modal h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 24px;
+      color: var(--main);
+      margin-bottom: 12px;
+    }
+    .modal p {
+      color: var(--text-sub);
+      font-size: 14px;
+      margin-bottom: 8px;
+      line-height: 1.8;
+    }
+    .modal .summary {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 24px 0;
+      text-align: left;
+    }
+    .modal .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 14px;
+    }
+    .modal .summary-row .label {
+      color: var(--text-muted);
+    }
+    .modal .summary-row .value {
+      color: var(--text);
+      font-weight: 500;
+    }
+    .btn-close-modal {
+      display: inline-block;
+      padding: 14px 48px;
+      background: var(--main);
+      color: #fff;
+      border: none;
+      border-radius: 40px;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+    .btn-close-modal:hover {
+      background: #14292A;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--main);
+      color: rgba(255,255,255,0.5);
+      padding: 48px 24px 32px;
+    }
+    .footer-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+    }
+    .footer-brand h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: #fff;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+    .footer-brand p { font-size: 13px; line-height: 1.8; }
+    .footer-col h4 {
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    .footer-col a {
+      display: block;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 13px;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom {
+      max-width: 900px;
+      margin: 32px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 64px;
+        left: 0; right: 0;
+        background: rgba(30,57,50,0.98);
+        padding: 24px;
+        gap: 20px;
+      }
+
+      .page-hero { padding: 120px 20px 50px; }
+      .page-hero h1 { font-size: 32px; }
+
+      .reserve-section { padding: 0 16px 60px; }
+      .reserve-card { padding: 28px 20px; }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-hero h1 { font-size: 28px; }
+      .modal { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/index.html" class="nav-logo">Cafe Lore</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/index.html#menu">MENU</a></li>
+      <li><a href="/index.html#events">EVENTS</a></li>
+      <li><a href="/index.html#access">ACCESS</a></li>
+      <li><a href="https://line.me/R/ti/p/@353rikxp" class="nav-cta">LINE友だち追加</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="メニュー">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="page-hero">
+  <div class="page-hero-content">
+    <span class="label">RESERVATION</span>
+    <h1>ご予約</h1>
+    <p>お席をご用意してお待ちしております</p>
+  </div>
+</section>
+
+<!-- Reservation Form -->
+<div class="reserve-section">
+  <div class="reserve-card">
+    <form id="reserveForm" novalidate>
+
+      <!-- Date -->
+      <div class="form-group">
+        <label for="date">ご来店日<span class="required">必須</span></label>
+        <input type="date" id="date" name="date" class="form-input" required>
+        <p class="error-message" id="dateError">日付を選択してください</p>
+      </div>
+
+      <!-- Time & Party Size -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="timeSlot">時間帯<span class="required">必須</span></label>
+          <select id="timeSlot" name="timeSlot" class="form-select" required>
+            <option value="" disabled selected>選択してください</option>
+            <optgroup label="ランチ">
+              <option value="11:00">11:00</option>
+              <option value="11:30">11:30</option>
+              <option value="12:00">12:00</option>
+              <option value="12:30">12:30</option>
+              <option value="13:00">13:00</option>
+              <option value="13:30">13:30</option>
+              <option value="14:00">14:00</option>
+            </optgroup>
+            <optgroup label="ディナー">
+              <option value="17:00">17:00</option>
+              <option value="17:30">17:30</option>
+              <option value="18:00">18:00</option>
+              <option value="18:30">18:30</option>
+              <option value="19:00">19:00</option>
+              <option value="19:30">19:30</option>
+              <option value="20:00">20:00</option>
+            </optgroup>
+          </select>
+          <p class="error-message" id="timeSlotError">時間帯を選択してください</p>
+        </div>
+
+        <div class="form-group">
+          <label for="partySize">人数<span class="required">必須</span></label>
+          <select id="partySize" name="partySize" class="form-select" required>
+            <option value="" disabled selected>選択してください</option>
+            <option value="1">1名</option>
+            <option value="2">2名</option>
+            <option value="3">3名</option>
+            <option value="4">4名</option>
+            <option value="5">5名</option>
+            <option value="6">6名</option>
+          </select>
+          <p class="error-message" id="partySizeError">人数を選択してください</p>
+        </div>
+      </div>
+
+      <!-- Name -->
+      <div class="form-group">
+        <label for="name">お名前<span class="required">必須</span></label>
+        <input type="text" id="name" name="name" class="form-input" placeholder="山田 太郎" required>
+        <p class="error-message" id="nameError">お名前を入力してください</p>
+      </div>
+
+      <!-- Phone & Email -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="phone">電話番号<span class="required">必須</span></label>
+          <input type="tel" id="phone" name="phone" class="form-input" placeholder="090-1234-5678" required>
+          <p class="error-message" id="phoneError">正しい電話番号を入力してください</p>
+        </div>
+        <div class="form-group">
+          <label for="email">メールアドレス<span class="required">必須</span></label>
+          <input type="email" id="email" name="email" class="form-input" placeholder="example@mail.com" required>
+          <p class="error-message" id="emailError">正しいメールアドレスを入力してください</p>
+        </div>
+      </div>
+
+      <!-- Terrace -->
+      <div class="checkbox-group">
+        <input type="checkbox" id="terrace" name="terrace">
+        <label for="terrace">テラス席を希望する（ペット同伴可）</label>
+      </div>
+
+      <!-- Notes -->
+      <div class="form-group">
+        <label for="notes">備考<span class="optional">任意</span></label>
+        <textarea id="notes" name="notes" class="form-textarea" placeholder="アレルギー、お祝い、ベビーカーのご利用など、ご要望がございましたらご記入ください"></textarea>
+      </div>
+
+      <!-- Important Notes -->
+      <div class="reserve-notes">
+        <h3>ご予約に関する注意事項</h3>
+        <ul>
+          <li>4名様以上のご予約はお電話（03-6455-XXXX）にて承っております</li>
+          <li>キャンセルは前日17:00まで無料です。それ以降のキャンセルにはキャンセル料が発生する場合がございます</li>
+          <li>ご予約時間を15分以上過ぎた場合、お席をお譲りいただくことがございます</li>
+          <li>営業時間: 平日 8:00〜21:00 / 土日祝 9:00〜20:00（水曜定休）</li>
+        </ul>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn-submit">予約を確定する</button>
+    </form>
+  </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+    </div>
+    <h2>ご予約を承りました</h2>
+    <p>ご来店を心よりお待ちしております。</p>
+    <div class="summary" id="summaryContent"></div>
+    <p style="font-size: 12px; color: var(--text-muted);">確認メールをお送りいたします。<br>変更・キャンセルはお電話にて承ります。</p>
+    <button class="btn-close-modal" id="closeModal">閉じる</button>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>Cafe Lore</h3>
+      <p>代官山の路地裏に佇む、<br>本と珈琲の隠れ家カフェ。</p>
+    </div>
+    <div class="footer-col">
+      <h4>MENU</h4>
+      <a href="/index.html#seasonal">季節のおすすめ</a>
+      <a href="/index.html#menu">ドリンク</a>
+      <a href="/index.html#menu">フード</a>
+      <a href="/index.html#menu">デザート</a>
+    </div>
+    <div class="footer-col">
+      <h4>INFO</h4>
+      <a href="/index.html#about">店舗情報</a>
+      <a href="/index.html#events">イベント</a>
+      <a href="/index.html#access">アクセス</a>
+      <a href="https://line.me/R/ti/p/@353rikxp">LINE</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Cafe Lore. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+
+  // Set minimum date to today
+  const dateInput = document.getElementById('date');
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate() + 1).padStart(2, '0'); // Tomorrow at earliest
+  dateInput.min = `${yyyy}-${mm}-${dd}`;
+
+  // Validation
+  const form = document.getElementById('reserveForm');
+  const fields = {
+    date: { el: document.getElementById('date'), error: document.getElementById('dateError') },
+    timeSlot: { el: document.getElementById('timeSlot'), error: document.getElementById('timeSlotError') },
+    partySize: { el: document.getElementById('partySize'), error: document.getElementById('partySizeError') },
+    name: { el: document.getElementById('name'), error: document.getElementById('nameError') },
+    phone: { el: document.getElementById('phone'), error: document.getElementById('phoneError') },
+    email: { el: document.getElementById('email'), error: document.getElementById('emailError') },
+  };
+
+  function validateField(key) {
+    const f = fields[key];
+    let valid = true;
+
+    if (key === 'phone') {
+      const phoneVal = f.el.value.replace(/[\s\-]/g, '');
+      valid = /^0[0-9]{9,10}$/.test(phoneVal);
+    } else if (key === 'email') {
+      valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.el.value);
+    } else {
+      valid = f.el.value.trim() !== '';
+    }
+
+    f.el.classList.toggle('error', !valid);
+    f.error.classList.toggle('visible', !valid);
+    return valid;
+  }
+
+  // Real-time validation on blur
+  Object.keys(fields).forEach(key => {
+    fields[key].el.addEventListener('blur', () => validateField(key));
+    fields[key].el.addEventListener('input', () => {
+      if (fields[key].el.classList.contains('error')) {
+        validateField(key);
+      }
+    });
+  });
+
+  // Submit
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    let allValid = true;
+    Object.keys(fields).forEach(key => {
+      if (!validateField(key)) allValid = false;
+    });
+
+    if (!allValid) {
+      // Scroll to first error
+      const firstError = form.querySelector('.form-input.error, .form-select.error');
+      if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // Show confirmation
+    const dateVal = new Date(fields.date.el.value);
+    const dateStr = `${dateVal.getFullYear()}年${dateVal.getMonth() + 1}月${dateVal.getDate()}日`;
+    const timeVal = fields.timeSlot.el.value;
+    const timeLabel = parseInt(timeVal) < 15 ? `${timeVal}（ランチ）` : `${timeVal}（ディナー）`;
+    const partyVal = `${fields.partySize.el.value}名`;
+    const nameVal = fields.name.el.value;
+    const terrace = document.getElementById('terrace').checked ? 'はい' : 'なし';
+
+    const summary = document.getElementById('summaryContent');
+    summary.innerHTML = `
+      <div class="summary-row"><span class="label">日付</span><span class="value">${dateStr}</span></div>
+      <div class="summary-row"><span class="label">時間</span><span class="value">${timeLabel}</span></div>
+      <div class="summary-row"><span class="label">人数</span><span class="value">${partyVal}</span></div>
+      <div class="summary-row"><span class="label">お名前</span><span class="value">${nameVal}</span></div>
+      <div class="summary-row"><span class="label">テラス席</span><span class="value">${terrace}</span></div>
+    `;
+
+    document.getElementById('modalOverlay').classList.add('visible');
+    document.body.style.overflow = 'hidden';
+  });
+
+  // Close modal
+  document.getElementById('closeModal').addEventListener('click', () => {
+    document.getElementById('modalOverlay').classList.remove('visible');
+    document.body.style.overflow = '';
+    form.reset();
+    // Remove error states
+    Object.keys(fields).forEach(key => {
+      fields[key].el.classList.remove('error');
+      fields[key].error.classList.remove('visible');
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Close modal on overlay click
+  document.getElementById('modalOverlay').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) {
+      document.getElementById('closeModal').click();
+    }
+  });
+</script>
+
+</body>
+</html>

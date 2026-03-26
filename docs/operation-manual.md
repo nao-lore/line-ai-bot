@@ -621,6 +621,18 @@ line-ai-bot/
 └── .gitignore                      # Git管理除外ファイル一覧
 ```
 
+### 実URLへの差し替えが必要な箇所
+
+以下のファイルにプレースホルダーURLが残っています。実際のサービスを契約・設定した際に差し替えてください。
+
+| ファイル | 現在のURL | 差し替え先 |
+|---------|----------|-----------|
+| `lib/flex-messages.js` | `https://example.com/reserve` | ホットペッパー等のオンライン予約ページURL |
+| `lib/flex-messages.js` | `https://buy.stripe.com/example` | Stripe Payment LinksのURL（オンライン決済） |
+| `lib/flex-messages.js` | `https://placehold.co/...` | 店舗写真の実URL（メニューカードのヘッダー画像） |
+| `lib/step-messages.js` | `https://placehold.co/...` | 店舗写真の実URL（おすすめメニュー紹介カード） |
+| `lib/step-messages.js` | `https://forms.gle/example` | Google Formsのアンケート実URL |
+
 ### 各ファイルの編集頻度
 
 | ファイル | 編集頻度 | 誰が編集するか |
